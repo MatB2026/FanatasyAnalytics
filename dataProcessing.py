@@ -127,6 +127,7 @@ class dataProccesses():
                 for player in aggData[team]["weeklyReport"][str(week)]["teamStats"].keys():
                     
                     entry = {
+                        "UniqueKey": player + week + team,
                         "week": int(week),
                         "PlayerID": player,
                         "PlayerName": aggData[team]["weeklyReport"][str(week)]["teamStats"][player]["Name"],
