@@ -125,28 +125,28 @@ class dataProccesses():
             for week in aggData[team]["weeklyReport"].keys():
                
                 for player in aggData[team]["weeklyReport"][str(week)]["teamStats"].keys():
-                    
-                    entry = {
-                        "UniqueKey": player + week + team,
-                        "week": int(week),
-                        "PlayerID": player,
-                        "PlayerName": aggData[team]["weeklyReport"][str(week)]["teamStats"][player]["Name"],
-                        "teamName": aggData[team]["team"],
-                        "teamID": team,
-                        "Points": aggData[team]["weeklyReport"][str(week)]["teamStats"][player]["Stats"]["appliedTotal"],
-                        "TeamPoints": teamPtsData[team]["totalByWeek"][str(week)]["Points"],
-                        "TeamPointsAvg": teamPtsData[team]["Avg"],
-                        "PercentTotal":aggData[team]["weeklyReport"][str(week)]["teamStats"][player]["Stats"]["appliedTotal"] / teamPtsData[team]["totalByWeek"][str(week)]["Points"],
-                        "PercentTotalAvg": 0,
-                        "Opponent": teamPtsData[team]["totalByWeek"][str(week)]["opponent"],
-                        "OppPoints": ptsAgainst[str(teamPtsData[team]["totalByWeek"][str(week)]["opponent"])][str(week)]["PointsAgainst"],
-                        "OppPtsAvg": ptsAgainst[str(teamPtsData[team]["totalByWeek"][str(week)]["opponent"])]["Total"] / ptsAgainst[str(teamPtsData[team]["totalByWeek"][str(week)]["opponent"])]["GamesPlayed"],
-                        "Position":aggData[team]["weeklyReport"][str(week)]["teamStats"][player]["position"][0],
-                        
-                        }
+                    if aggData[team]["weeklyReport"][str(week)]["teamStats"][player]["Stats"]["appliedTotal"] != 0:
+                        entry = {
+                            "UniqueKey": player + week + team,
+                            "week": int(week),
+                            "PlayerID": player,
+                            "PlayerName": aggData[team]["weeklyReport"][str(week)]["teamStats"][player]["Name"],
+                            "teamName": aggData[team]["team"],
+                            "teamID": team,
+                            "Points": aggData[team]["weeklyReport"][str(week)]["teamStats"][player]["Stats"]["appliedTotal"],
+                            "TeamPoints": teamPtsData[team]["totalByWeek"][str(week)]["Points"],
+                            "TeamPointsAvg": teamPtsData[team]["Avg"],
+                            "PercentTotal":aggData[team]["weeklyReport"][str(week)]["teamStats"][player]["Stats"]["appliedTotal"] / teamPtsData[team]["totalByWeek"][str(week)]["Points"],
+                            "PercentTotalAvg": 0,
+                            "Opponent": teamPtsData[team]["totalByWeek"][str(week)]["opponent"],
+                            "OppPoints": ptsAgainst[str(teamPtsData[team]["totalByWeek"][str(week)]["opponent"])][str(week)]["PointsAgainst"],
+                            "OppPtsAvg": ptsAgainst[str(teamPtsData[team]["totalByWeek"][str(week)]["opponent"])]["Total"] / ptsAgainst[str(teamPtsData[team]["totalByWeek"][str(week)]["opponent"])]["GamesPlayed"],
+                            "Position":aggData[team]["weeklyReport"][str(week)]["teamStats"][player]["position"][0],
+                            "Stat":aggData[team]["weeklyReport"][str(week)]["teamStats"][player]["Stats"]["stats"]
+                            }
         
                     
-                    finalOut.append(entry)
+                        finalOut.append(entry)
                     
                     
          #converts the dict to dataframe
@@ -158,7 +158,10 @@ class dataProccesses():
         #sets average percentage of total points scored by team
         for player in players:
           df.loc[df["PlayerID"] == player,"PercentTotalAvg"] = df.loc[df["PlayerID"] == player, "PercentTotalAvg"].mean()
-        done
+        
+        
+        
+        return df
         
 
         
